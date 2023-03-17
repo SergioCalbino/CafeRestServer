@@ -36,7 +36,8 @@ const UsuarioSchema = Schema({
 
 
 UsuarioSchema.methods.toJSON = function() { // Con esto remuevo el __v y el password al momento de devolverr el usuario. Se grva todo en la DB, pero no se mueestra
-    const { __v, password, ...usuario  } = this.toObject();
+    const { __v, password, _id, ...usuario  } = this.toObject();
+    usuario.uid = _id
     return usuario;
 }
 
