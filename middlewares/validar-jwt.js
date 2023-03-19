@@ -34,7 +34,7 @@ const validarJWT = async( req = request, res = response, next ) => {
             })
         }
         
-        
+        //Guardo el usuario validado por token el en req para luego poder llamarlo donde lo necesite
         req.usuario = usuario;
         // console.log(req.usuario)
         next();

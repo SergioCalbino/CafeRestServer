@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs')
 const Usuario = require('../models/usuario');
 
 const { generarJWT } = require('../helpers/generar-jwt');
+const { googleVerify } = require('../helpers/google-verify');
 
 
 const login = async(req, res = response) => {
@@ -50,10 +51,65 @@ const login = async(req, res = response) => {
         });
     }   
 
+};
+
+const googleSingIn = async (req, res, next) => {
+
+    const { id_token } = req.body;
+
+    try {
+
+        const googleUser = await googleVerify(id_token)
+        
+        const { nombre, img, correo } = googleUser;
+        console.log(googleUser)
+
+        let usuario = await Usuario.findOne( { correo } );
+
+        if (!usuario) {
+            let data = {
+                correo,
+                nombre,
+                img,
+                password: '',
+                google: true
+            }
+
+            usuario = new Usuario( data );
+            await usuario.save()
+        }
+        
+        // Verificar si el usuario tiene estado en falso
+        if (!usuario.estado) {
+            return res.status(401).json({
+                msg: 'Usuario bloquedo, hable con el administrador'
+            })
+        }
+        
+        console.log(usuario.id)
+        const token = await generarJWT( usuario.id );
+        
+        
+        
+        console.log(usuario)
+        res.json({
+            usuario,
+            token
+        })
+    } catch (error) {
+        res.status(500).json({
+            msg: 'El token no fue verificado',
+            ok: false
+        })
+        
+    }
+
+
 }
 
 
 
 module.exports = {
-    login
+    login,
+    googleSingIn
 }
