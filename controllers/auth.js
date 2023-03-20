@@ -67,13 +67,14 @@ const googleSingIn = async (req, res, next) => {
         let usuario = await Usuario.findOne( { correo } );
 
         if (!usuario) {
-            let data = {
-                correo,
+            const data = {
                 nombre,
+                correo,
+                password: ";P",
                 img,
-                password: '',
-                google: true
-            }
+                rol: "USER_ROLE",
+                google: true,
+              };
 
             usuario = new Usuario( data );
             await usuario.save()
@@ -86,12 +87,12 @@ const googleSingIn = async (req, res, next) => {
             })
         }
         
-        console.log(usuario.id)
+        // console.log(usuario.id)
         const token = await generarJWT( usuario.id );
         
         
         
-        console.log(usuario)
+        // console.log(usuario)
         res.json({
             usuario,
             token
