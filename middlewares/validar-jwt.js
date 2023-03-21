@@ -1,5 +1,6 @@
 const { response, request } = require('express');
 const jwt = require('jsonwebtoken');
+const { Categoria } = require('../models');
 
 const Usuario = require('../models/usuario');
 
@@ -17,9 +18,10 @@ const validarJWT = async( req = request, res = response, next ) => {
     try {
         
         const { uid } = jwt.verify( token, process.env.SECRETORPRIVATEKEY );
-        
+       
         // leer el usuario que corresponde al uid
         const usuario = await Usuario.findById( uid );
+        const categoria = await Categoria.findById( uid )
 
         if( !usuario ) {
             return res.status(401).json({
@@ -36,6 +38,7 @@ const validarJWT = async( req = request, res = response, next ) => {
         
         //Guardo el usuario validado por token el en req para luego poder llamarlo donde lo necesite
         req.usuario = usuario;
+       
         // console.log(req.usuario)
         next();
 
