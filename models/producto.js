@@ -28,7 +28,8 @@ const ProductoSchema = Schema({
         required: true
     },
     description: { type: String },
-    disponible: { type: Boolean, default: true }
+    disponible: { type: Boolean, default: true },
+    img:{ type: String }
 });
 
 ProductoSchema.methods.toJSON = function() { // Con esto remuevo el __v y el password al momento de devolverr el usuario. Se grva todo en la DB, pero no se mueestra
