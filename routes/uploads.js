@@ -6,7 +6,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 
 const { login, googleSingIn } = require('../controllers/auth');
-const { cargarArchivo, actualizarImagen } = require('../controllers/uploads');
+const { cargarArchivo, actualizarImagen, mostrarImagen, actualizarImagenClodinary } = require('../controllers/uploads');
 const { coleccionesPermitidas } = require('../helpers');
 const { validarArchivo } = require('../middlewares');
 
@@ -21,7 +21,14 @@ router.put('/:coleccion/:id', [
     check('id', 'Debe ser un mongoID válido').isMongoId(),
     check('coleccion').custom( c => coleccionesPermitidas( c, ['usuarios', 'productos'] )),
     validarCampos
-], actualizarImagen)
+], actualizarImagenClodinary);
+
+router.get('/:coleccion/:id', [
+    check('id', 'Debe ser un mongoID válido').isMongoId(),
+    check('coleccion').custom( c => coleccionesPermitidas( c, ['usuarios', 'productos'] )),
+    validarCampos,
+    mostrarImagen
+])
 
 
 
