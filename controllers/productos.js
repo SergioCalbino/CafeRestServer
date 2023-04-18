@@ -21,6 +21,7 @@ const obtenerProducto = async (req, res) => {
 
 const crearProducto = async (req, res) => {
     
+    //El nombre lo extraes para verificar si exista. El estado y usuario lo sacas del resto porque no lo podemos modificar
     const {nombre, estado, usuario, ...resto } = req.body;
 
     const productoExiste = await Producto.findOne({nombre});
