@@ -9,7 +9,7 @@ const { validationResult } = require('express-validator');
 
 const usuariosGet = async(req = request, res = response) => {
 
-    const { limite = 5, desde = 0 } = req.query;
+    const { limite = 10, desde = 0 } = req.query;
     const query = { estado: true }; //Esta query es para evitar que al treaer los usuarios no traigan los que tienen estado false
 
     const [ total, usuarios ] = await Promise.all([
@@ -23,6 +23,13 @@ const usuariosGet = async(req = request, res = response) => {
         total,
         usuarios
     });
+};
+
+const usuarioGet = async (req = request, res = response) => {
+    const { id } = req.params
+    const usuario = await Usuario.findById(id)
+    console.log(usuario)
+    return res.json(usuario)
 }
 
 const usuariosPost = async(req, res = response) => {
@@ -83,6 +90,7 @@ const usuariosDelete = async(req, res = response) => {
 
 module.exports = {
     usuariosGet,
+    usuarioGet,
     usuariosPost,
     usuariosPut,
     usuariosPatch,

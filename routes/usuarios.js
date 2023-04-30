@@ -11,13 +11,15 @@ const { usuariosGet,
         usuariosPut,
         usuariosPost,
         usuariosDelete,
-        usuariosPatch } = require('../controllers/usuarios');
+        usuariosPatch, 
+        usuarioGet} = require('../controllers/usuarios');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
 
 router.get('/', usuariosGet );
+router.get('/:id', usuarioGet );
 
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
