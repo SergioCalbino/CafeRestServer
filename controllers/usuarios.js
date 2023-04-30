@@ -66,10 +66,13 @@ const usuariosPut = async(req, res = response) => {
     res.json(usuario);
 }
 
-const usuariosPatch = (req, res = response) => {
-    res.json({
-        msg: 'patch API - usuariosPatch'
-    });
+const usuariosPatch = async (req, res = response) => {
+    const { id } = req.params;
+    const {_id, password, correo, ...data } = req.body
+
+    const usuario = await Usuario.findByIdAndUpdate(id, data, { new : true});
+
+    res.json(usuario);
 }
 
 const usuariosDelete = async(req, res = response) => {

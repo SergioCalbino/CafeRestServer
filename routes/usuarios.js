@@ -47,7 +47,7 @@ router.delete('/:id',[
     validarCampos
 ],usuariosDelete );
 
-router.patch('/', usuariosPatch );
+router.patch('/:id', usuariosPatch );
 
 
 
