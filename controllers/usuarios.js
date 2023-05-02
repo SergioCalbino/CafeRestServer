@@ -72,7 +72,7 @@ const usuariosPatch = async (req, res = response) => {
 
     const usuario = await Usuario.findByIdAndUpdate(id, data, { new : true});
 
-    res.json(usuario);
+    res.json({ msg: 'Usuario actualizado correctamente', usuario});
 }
 
 const usuariosDelete = async(req, res = response) => {
